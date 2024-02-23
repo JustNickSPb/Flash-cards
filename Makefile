@@ -1,6 +1,11 @@
+up:
+	docker build . -t blacksheep
+	docker run -p 80:8000 blacksheep
+
 lint:
-	flake8 app
-	mypy app
 	isort app
 	black app
+	flake8 app
+	mypy app
+	
 
