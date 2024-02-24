@@ -1,5 +1,6 @@
 up:
-	docker compose up --build -d
+	pipenv lock
+	docker compose up --build
 
 lint:
 	isort app
