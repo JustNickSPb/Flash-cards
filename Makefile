@@ -1,6 +1,5 @@
 up:
-	docker build . -t blacksheep
-	docker run -p 80:8000 blacksheep
+	docker compose up --build -d
 
 lint:
 	isort app
