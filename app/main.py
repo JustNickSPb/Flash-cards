@@ -1,5 +1,8 @@
 from blacksheep import Application, Request, delete, get, post, put
 
+from app.api.models import Card
+from app.db import crud
+
 app = Application()
 
 
@@ -9,25 +12,35 @@ def home():
 
 
 @get("/cards")
-def get_all_cards():
-    return "Тут будет ендпойнт, отдающий все карточки"
+async def get_all_cards() -> list[Card]:
+    full_deck = await crud.get_all_cards()
+
+    return full_deck
 
 
 @get("/cards/{id}")
-def get_card_by_id(id: int):
-    return f"Тут будет ендпойнт, отдающий карточку с id = {id}"
+async def get_card_by_id(id: int):
+    card = await crud.get_card_by_id(id)
+
+    return card
 
 
 @post("/cards")
-def add_card(request: Request):
-    return "Тут будет ендпойнт, добавляющий карточку"
+async def add_card(request: Request):
+    new_card = await crud.add_card(await request.json())
+
+    return new_card
 
 
 @put("/cards/{id}")
-def update_card(id: int, request: Request):
-    return f"Тут будет ендпойнт, обновляющий карточку с id = {id}"
+async def update_card(id: int, request: Request):
+    updated_card = await crud.update_card(await request.json())
+
+    return updated_card
 
 
 @delete("/cards/{id}")
-def delete_card(id: int):
-    return f"Тут будет ендпойнт, удаляющий карточку с id = {id}"
+async def delete_card(id: int):
+    result = await crud.delete_card(id)
+
+    return result
