@@ -1,46 +1,31 @@
-from blacksheep import Application, Request, delete, get, post, put
+"""
+This module configures the BlackSheep application before it starts.
+"""
+from blacksheep import Application
+from rodi import Container
 
-from app.api.models import Card
-from app.db import crud
-
-app = Application()
-
-
-@get("/")
-def home():
-    return "Hello, World!"
-
-
-@get("/cards")
-async def get_all_cards() -> list[Card]:
-    full_deck = await crud.get_all_cards()
-
-    return full_deck
+from app.auth import configure_authentication
+from app.docs import configure_docs
+from app.errors import configure_error_handlers
+from app.services import configure_services
+from app.settings import load_settings, Settings
+from app.templating import configure_templating
 
 
-@get("/cards/{id}")
-async def get_card_by_id(id: int):
-    card = await crud.get_card_by_id(id)
+def configure_application(
+    services: Container,
+    settings: Settings,
+) -> Application:
+    app = Application(
+        services=services, show_error_details=settings.app.show_error_details
+    )
 
-    return card
-
-
-@post("/cards")
-async def add_card(request: Request):
-    new_card = await crud.add_card(await request.json())
-
-    return new_card
-
-
-@put("/cards/{id}")
-async def update_card(id: int, request: Request):
-    updated_card = await crud.update_card(await request.json())
-
-    return updated_card
+    app.serve_files("app/static")
+    configure_error_handlers(app)
+    configure_authentication(app, settings)
+    configure_docs(app, settings)
+    configure_templating(app, settings)
+    return app
 
 
-@delete("/cards/{id}")
-async def delete_card(id: int):
-    result = await crud.delete_card(id)
-
-    return result
+app = configure_application(*configure_services(load_settings()))

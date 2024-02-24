@@ -1,0 +1,8 @@
+---
+info:
+  title: "flash cards API"
+  version: 0.0.1
+app:
+  show_error_details: false
+site:
+  copyright: Example
