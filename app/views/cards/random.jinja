@@ -1,23 +1,26 @@
 {%- extends "layout.jinja" -%}
-{%- block title -%}
-Flash Cards Pet Project
-{%- endblock -%}
-{%- block description -%}
-Карточки для запоминания - пет-проект для освоения blacksheep framework
-{%- endblock -%}
-{%- block css -%}
-<link rel="stylesheet" href="/styles/public.css" />
-{%- endblock -%}
-{%- block body -%}
 
+{% block title %}
+Flash Cards Pet Project - Random Card
+{% endblock %}
+
+{% block description %}
+Случайная карточка для запоминания
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/styles/public.css" />
+{% endblock %}
+
+{% block body %}
 <header class="masthead bg-primary text-white text-center">
     <div class="container d-flex align-items-center flex-column">
 
         <!-- Masthead Avatar Image -->
         <img class="masthead-avatar mb-5" src="images/blacksheep.png" alt="BlackSheep">
 
-        <!-- Masthead Heading -->
-        <h1 class="masthead-heading mb-0">флеш-карточки для запоминания слов, терминов и вообще чего угодно</h1>
+        <!-- Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase text-white">Случайная карточка</h2>
 
         <!-- Icon Divider -->
         <div class="divider-custom divider-light">
@@ -28,9 +31,14 @@ Flash Cards Pet Project
             <div class="divider-custom-line"></div>
         </div>
 
-        <!-- Masthead Subheading -->
-        <p class="masthead-subheading font-weight-light mb-0">Учись легко, учись каждый день!
-        </p>
+        <!-- Section Content -->
+        <div class="row">
+            <a href="/random-card">Click</a>
+            <div class="form-control"><b>Вопрос:</b> {{ question }}</div>
+            <div class="form-control" id="answer" style="display:none;"><b>Ответ:</b> {{ answer }}</div>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('answer').style.display='block';">Показать ответ</button>
+        </div>
+        
 
     </div>
 </header>

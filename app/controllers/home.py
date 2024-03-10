@@ -15,8 +15,10 @@ class Cards(Controller):
     def index(self):
         return self.view()
 
-    @route("/add-card", methods=["POST"])
+    @route("/add-card", methods=["GET","POST"])
     async def add_card(self, request: Request) -> Response:
+        if request.method == "GET":
+            return self.view("add")
         form = await request.form()
         card_data = Card(question=form["question"], answer=form["answer"])
         db = SessionLocal()
@@ -28,4 +30,4 @@ class Cards(Controller):
         db = SessionLocal()
         cards = get_all_cards(db)
         random_card = random.choice(cards)
-        return self.view("index", model=models.Card(question=random_card.question, answer=random_card.answer))
+        return self.view("random", model=models.Card(question=random_card.question, answer=random_card.answer))
