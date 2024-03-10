@@ -1,5 +1,5 @@
 up:
-	pipenv lock
+	pipenv install
 	docker compose up --build
 
 lint:
